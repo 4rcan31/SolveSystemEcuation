@@ -1,4 +1,3 @@
-
 import sys
 
 
@@ -46,23 +45,23 @@ def printResult(result):
         print('La incognita ' + str(i + 1 ) + ' es: ' + str(result[i]) )
 
 def calcDeterminantByMatrix(matrix): # Teorema de Laplace
-    B = [k[:] for k in matrix]
+    Ma = [k[:] for k in matrix]
     dimension = len(matrix)
-    suma = 0.0
+    suma = 0
     if dimension > 2:
         for i in range(dimension):
-            factor = B[0][i]
+            factor = Ma[0][i]
             signo = -2 * (i % 2) + 1
-            B.remove(B[0])
+            Ma.remove(Ma[0])
             for j in range(0, dimension - 1):
-                B[j].pop(i)
-            suma = suma + factor * signo * calcDeterminantByMatrix(B)
-            B = [k[:] for k in matrix]
+                Ma[j].pop(i)
+            suma = suma + factor * signo * calcDeterminantByMatrix(Ma)
+            Ma = [k[:] for k in matrix]
         return suma
     elif dimension == 2:
-        return (B[0][0] * B[1][1]) - (B[0][1] * B[1][0])
+        return (Ma[0][0] * Ma[1][1]) - (Ma[0][1] * Ma[1][0])
     else:
-        return B
+        return Ma
     
     
 def calcDeterminantByMatrixs(matrixs):
@@ -133,4 +132,6 @@ def showMatrix(matrix):
         print()
 
 if '__main__' == __name__:
+    if 'debug' in sys.argv:
+        print('debug on')
     main(sys.argv)
