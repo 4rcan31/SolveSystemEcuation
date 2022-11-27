@@ -1,14 +1,15 @@
 # programa para resolver sistemas de ecuaciones lineales con x incognitas
 
 
-# main.py
-Este archivo contiene el codigo para resolver sistema de dos ecuaciones con dos incognitas, pero ¿y que pasa si quiero agregar una tercera ecuacion con una tercera 
-incognita?, pues el programa se rompe, por que solo soporta 2 ecuaciones
+# systemOfTwoEquations.py
+Este archivo contiene el codigo para resolver sistema de dos ecuaciones con dos incognitas, pero ¿y que pasa si quiero agregar una tercera o cuarta ecuacion con una tercera o cuarta incognita?, pues el programa se rompe, por que solo soporta 2 ecuaciones
+
+# systemOfThreeEquations.py
+Este archivo contiene el codigo para resolver sistema de tres ecuaciones con dos incognitas, pero ¿y que pasa si quiero agregar una quinta o sexta ecuacion con una quinta o sexta incognita?, pues el programa se rompe, por que solo soporta 3 ecuaciones
 
 
 # Laplace.py
-Del problema anterior surgio este nuevo script, usando el [Teorema de Laplace](https://es.wikipedia.org/wiki/Teorema_de_Laplace) para resolver la determinante
-de cualquier matriz y la [Regla de Cramer](https://es.wikipedia.org/wiki/Regla_de_Cramer) para resolver cualquier sistema de ecuaciones
+Del problema anterior surgio este nuevo script, usando el [Teorema de Laplace](https://es.wikipedia.org/wiki/Teorema_de_Laplace) para resolver la determinante de cualquier matriz y la [Regla de Cramer](https://es.wikipedia.org/wiki/Regla_de_Cramer) para resolver cualquier sistema de ecuaciones
 
 # Condiciones
 Existen dos condiciones que debemos de cumplir para que el codigo no nos de error 
@@ -49,6 +50,22 @@ python Laplace.py
 el script cuenta un sistema de debuging para que puedas ver como el script hace las matrices, si quieres verlo puedes ejecutar  
 ```sh
 python Laplace.py debug
+```
+En el caso que quieras hacer testing con datos aleatorios, el script cuenta con otro script que genera datos aleatorios, para no estar
+poniendo todos los datos a mano, para hacerlo puedes ejecutarlo asi
+
+```sh
+python Laplace.py random
+```
+
+Tambien, en el caso que quieras medir el tiempo de ejecucion en las funciones puedes hacerlo asi
+```sh
+python Laplace.py time
+```
+
+Tambien, puedes ejecutar las tres cosas al mismo tiempo
+```sh
+python Laplace.py debug random time
 ```
 
 
