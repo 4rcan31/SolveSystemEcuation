@@ -36,9 +36,13 @@ def debug(data, matrixDeterminan, calcdeterminant,  result):
 def calc(determinants):
     result = []
     Ds = determinants[0]
-    for i in range(len(determinants) - 1):
-        result.append(determinants[i + 1]/ Ds)
-    return result
+    if Ds != 0:
+        for i in range(len(determinants) - 1):
+            result.append(determinants[i + 1]/ Ds)
+        return result
+    else:
+        print('La determinante del sistema es ' + str(Ds)+ " el sistema no tiene solucion")
+        exit(1)
 
 def printResult(result):
     for i in range(len(result)):
