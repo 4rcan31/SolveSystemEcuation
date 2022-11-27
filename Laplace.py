@@ -1,18 +1,68 @@
 import sys
+import random
+import time
 
 
 def main(args):
     dimension = int(input('Ingrese cuantas variables tiene su sistema de ecuaciones: '))
-    data = getData(dimension)
+    if 'time' in args:
+        resultWithTime(args, dimension)
+        exit(1)
+    
+    if 'random' in args:
+        data = randomData(dimension)
+    else:
+        data = getData(dimension) 
+    
     matrixDeterminan = matrix(data)
     calcdeterminant = calcDeterminantByMatrixs(matrixDeterminan)
     result = calc(calcdeterminant)
     if 'debug' in args:
         debug(data, matrixDeterminan, calcdeterminant, result)
     printResult(result)
+    return
     
     
+def resultWithTime(args, dimension):
+    resultTime = []
+    if 'random' in args:
+        inicioRandom = time.time()
+        data = randomData(dimension)
+        finRandom = time.time()
+        resultTime.append('El programa se tardo ' + str(finRandom - inicioRandom) + ' segundos en hacer los numeros aleatorios')
+    else:
+        data = getData(dimension)
+      
+    inicioMatrix = time.time()  
+    matrixDeterminan = matrix(data)
+    finMatrix = time.time()  
+    resultMatrix = "El programa se tardo " + str(finMatrix - inicioMatrix) + ' segundos en hacer las matrices'
     
+    inicioDeterminantes = time.time()  
+    calcdeterminant = calcDeterminantByMatrixs(matrixDeterminan)
+    finDeterminantes = time.time() 
+    resultDeterminantes =   "El programa se tardo " + str((finDeterminantes - inicioDeterminantes)) + ' segundos en calcular las determinantes'
+    
+    inicioResultado = time.time() 
+    result = calc(calcdeterminant)
+    finResultado = time.time()  
+    resultCalcResult =  "El programa se tardo " + str(finResultado - inicioResultado) + ' segundos en calcular el resultado'
+    
+    resultTime.append(resultMatrix)
+    resultTime.append(resultDeterminantes)
+    resultTime.append(resultCalcResult)
+    if 'debug' in args:
+        iniciodebug = time.time()  
+        debug(data, matrixDeterminan, calcdeterminant, result)
+        finDebug = time.time()  
+        resultDebug =  "El programa se tardo " + str((finDebug - iniciodebug)) + ' segundos en imprimir el debug'
+        resultTime.append(resultDebug)
+    printResult(result)
+    
+    print('\n')
+    print(rowHr('TIEMPO'))
+    for resultTime in resultTime:
+        print(resultTime)
 
 def debug(data, matrixDeterminan, calcdeterminant,  result):
     rigthAndLeft = pullApartData(data)
@@ -96,14 +146,14 @@ def getData(iterable):
 def pullApartData(data):
     right = [] 
     left = []
-    for ecuations in data:
+    for equations in data:
         x = 0
-        for constantes in ecuations:
+        for constants in equations:
             x += 1
-            if x != len(ecuations): 
-                left.append(constantes)
+            if x != len(equations): 
+                left.append(constants)
             else:
-                right.append(constantes)
+                right.append(constants)
     return [left, right]
 
 def arrayChunk(array, n):
@@ -134,8 +184,25 @@ def showMatrix(matrix):
         for valor in fila:
             print("\t", valor, end=" ")
         print()
+        
+#Funcion de datos ramdons
 
+def randomData(dimension):
+    result = []
+    for i in range(dimension):
+        result.append(ramdonArray(dimension + 1, i))
+    return result
+def ramdonArray(t, fors = 1):
+    result = []
+    for i in range(t):
+        result.append(random.randrange(100*(i+1)*t*(fors + 1)))
+    return result
+        
 if '__main__' == __name__:
     if 'debug' in sys.argv:
         print('debug on')
+    if 'time' in sys.argv:
+        print('time on')
+    if 'random' in sys.argv:
+        print('random on')
     main(sys.argv)
