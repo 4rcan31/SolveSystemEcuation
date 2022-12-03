@@ -5,7 +5,7 @@
 Este archivo contiene el codigo para resolver sistema de dos ecuaciones con dos incognitas, pero ¿y que pasa si quiero agregar una tercera o cuarta ecuacion con una tercera o cuarta incognita?, pues el programa se rompe, por que solo soporta 2 ecuaciones
 
 # systemOfThreeEquations.py
-Este archivo contiene el codigo para resolver sistema de tres ecuaciones con dos incognitas, pero ¿y que pasa si quiero agregar una quinta o sexta ecuacion con una quinta o sexta incognita?, pues el programa se rompe, por que solo soporta 3 ecuaciones
+Este archivo contiene el codigo para resolver sistema de tres ecuaciones con tres incognitas, pero ¿y que pasa si quiero agregar una quinta o sexta ecuacion con una quinta o sexta incognita?, pues el programa se rompe, por que solo soporta 3 ecuaciones
 
 
 # Laplace.py
@@ -68,5 +68,16 @@ Tambien, puedes ejecutar las tres cosas al mismo tiempo
 python Laplace.py debug random time
 ```
 
+# Posibles actualizaciones
+
+## 1. tomar datos desde un excel con pandas 
+
+
+# Posibles optimizaciones
+
+## 1. Algoritmo determinantes
+Me he dado cuenta que luego de 10 ecuaciones con 10 incognitas, el tiempo para calcular las determinantes crece demasiado
+## 2. Algoritmo de fracciones
+Las respuesta ahora se dan en fracciones, pero muy grandes, hay que programar un algoritmo de simplificacion de fracciones eficiente
 
  
