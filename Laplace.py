@@ -1,70 +1,63 @@
 import sys
 import random
 import time
+import fractions
 
 
 def main(args):
     dimension = int(input('Ingrese cuantas variables tiene su sistema de ecuaciones: '))
-    if 'time' in args:
-        resultWithTime(args, dimension)
-        exit(1)
-    
+    dataTime = {}
     if 'random' in args:
+        start = time.time()
         data = randomData(dimension)
+        end = time.time()
+        dataTime['ramdon'] = start - end
     else:
+        start = time.time()
         data = getData(dimension) 
-    
+        end = time.time()
+        dataTime['getdata'] = abs(start - end) #no se por que esto me da negativo.
+        
+    start = time.time()
     matrixDeterminan = matrix(data)
+    end = time.time()
+    dataTime['matrix'] = start - end
+    
+    start = time.time()
     calcdeterminant = calcDeterminantByMatrixs(matrixDeterminan)
+    start = time.time()
+    dataTime['determinante'] = start - end
+    
+    start = time.time()
     result = calc(calcdeterminant)
+    end = time.time()
+    dataTime['calcular'] = start - end
+    
+    
     if 'debug' in args:
+        start = time.time()
         debug(data, matrixDeterminan, calcdeterminant, result)
+        start = time.time()
+        dataTime['debug'] = start - end
+        
+    if 'time' in args:
+        ptime(dataTime)
+        
     printResult(result)
     return
     
-    
-def resultWithTime(args, dimension):
-    resultTime = []
-    if 'random' in args:
-        inicioRandom = time.time()
-        data = randomData(dimension)
-        finRandom = time.time()
-        resultTime.append('El programa se tardo ' + str(finRandom - inicioRandom) + ' segundos en hacer los numeros aleatorios')
-    else:
-        data = getData(dimension)
-      
-    inicioMatrix = time.time()  
-    matrixDeterminan = matrix(data)
-    finMatrix = time.time()  
-    resultMatrix = "El programa se tardo " + str(finMatrix - inicioMatrix) + ' segundos en hacer las matrices'
-    
-    inicioDeterminantes = time.time()  
-    calcdeterminant = calcDeterminantByMatrixs(matrixDeterminan)
-    finDeterminantes = time.time() 
-    resultDeterminantes =   "El programa se tardo " + str((finDeterminantes - inicioDeterminantes)) + ' segundos en calcular las determinantes'
-    
-    inicioResultado = time.time() 
-    result = calc(calcdeterminant)
-    finResultado = time.time()  
-    resultCalcResult =  "El programa se tardo " + str(finResultado - inicioResultado) + ' segundos en calcular el resultado'
-    
-    resultTime.append(resultMatrix)
-    resultTime.append(resultDeterminantes)
-    resultTime.append(resultCalcResult)
-    if 'debug' in args:
-        iniciodebug = time.time()  
-        debug(data, matrixDeterminan, calcdeterminant, result)
-        finDebug = time.time()  
-        resultDebug =  "El programa se tardo " + str((finDebug - iniciodebug)) + ' segundos en imprimir el debug'
-        resultTime.append(resultDebug)
-    printResult(result)
-    
-    print('\n')
-    print(rowHr('TIEMPO'))
-    for resultTime in resultTime:
-        print(resultTime)
+def ptime(data):
+    print("\n")
+    suma = 0
+    print(rowHr('Time'))
+    for key in data:
+        print("En hacer: '", key, "' se tardo: ", data[key], " segundos")
+        suma = suma + data[key]
+    print("El programa tardo: ", suma, " segundos en ejecutarse")
+    print("\n")
 
 def debug(data, matrixDeterminan, calcdeterminant,  result):
+    ln()
     rigthAndLeft = pullApartData(data)
     print(rowHr('DEBUING')+'\n')
     print(rowHr('Vanilla data'))
@@ -79,10 +72,6 @@ def debug(data, matrixDeterminan, calcdeterminant,  result):
     print(result)
     print('\n')
     
-    
-
-
-
 def calc(determinants):
     result = []
     Ds = determinants[0]
@@ -95,8 +84,13 @@ def calc(determinants):
         exit(1)
 
 def printResult(result):
+    print(rowHr('Resultado en decimales'))
     for i in range(len(result)):
         print('La incognita ' + str(i + 1 ) + ' es: ' + str(result[i]) )
+    print(rowHr('Resultado en fracciones'))
+    for i in range(len(result)):
+        print('La incognita ' + str(i + 1 ) + ' es: ' + str(fractions.Fraction(result[i])) )
+    ln()
 
 def calcDeterminantByMatrix(matrix): # Teorema de Laplace
     Ma = [k[:] for k in matrix]
@@ -182,9 +176,13 @@ def rowHr(text):
 def showMatrix(matrix):
     for fila in matrix:
         for valor in fila:
-            print("\t", valor, end=" ")
+            try:
+                print(f"{valor:<10}", end=" ")
+            except:
+                print("\t", valor, end=" ")
         print()
-        
+def ln():
+    print("\n")
 #Funcion de datos ramdons
 
 def randomData(dimension):
@@ -197,7 +195,16 @@ def ramdonArray(t, fors = 1):
     for i in range(t):
         result.append(random.randrange(100*(i+1)*t*(fors + 1)))
     return result
+
         
+def simplificar(numerador, denominador):
+    for i in range(2, numerador):
+        if numerador % i == 0 and denominador % i == 0:
+            numerador = numerador // i
+            denominador = denominador // i
+    return numerador, denominador  
+
+ 
 if '__main__' == __name__:
     if 'debug' in sys.argv:
         print('debug on')
@@ -205,4 +212,5 @@ if '__main__' == __name__:
         print('time on')
     if 'random' in sys.argv:
         print('random on')
+    ln()
     main(sys.argv)
